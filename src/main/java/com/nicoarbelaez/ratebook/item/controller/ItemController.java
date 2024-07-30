@@ -29,8 +29,9 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public ResponseEntity<Iterable<Item>> getAllItems() {
-        return ResponseEntity.status(HttpStatus.OK).body(itemService.getAllItem());
+    public ResponseEntity<Iterable<ItemResponseDto>> getAllItems() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(itemService.getAllItem().stream().map(ItemMapper::toResponseDto).toList());
     }
 
     @GetMapping("/{id}")
@@ -58,6 +59,17 @@ public class ItemController {
     @PutMapping("/{id}")
     public ResponseEntity<ItemResponseDto> updateItem(@PathVariable Long id, @RequestBody Item item) {
         Optional<Item> updatedItem = itemService.updateItem(id, item);
+
+        if (!updatedItem.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(ItemMapper.toResponseDto(updatedItem.get()));
+    }
+
+    @PostMapping("/{id}/{rating}")
+    public ResponseEntity<ItemResponseDto> addRating(@PathVariable Long id, @PathVariable float rating) {
+        Optional<Item> updatedItem = itemService.updateItemRating(id, rating);
 
         if (!updatedItem.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

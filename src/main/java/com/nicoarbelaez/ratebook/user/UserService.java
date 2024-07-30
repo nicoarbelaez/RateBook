@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.nicoarbelaez.ratebook.auth.Auth;
 import com.nicoarbelaez.ratebook.auth.AuthRepository;
 import com.nicoarbelaez.ratebook.user.dto.UserRegistrationDto;
+import com.nicoarbelaez.ratebook.user.dto.UserResponseDto;
 import com.nicoarbelaez.ratebook.user.dto.mapper.UserMapper;
 
 import jakarta.transaction.Transactional;
@@ -20,16 +21,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthRepository authRepository;
 
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public List<UserResponseDto> getAllUser() {
+        return userRepository.findAll().stream().map(UserMapper::toDto).toList();
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserResponseDto> getUserById(Long id) {
+        return userRepository.findById(id).map(UserMapper::toDto);
     }
 
     @Transactional
-    public Optional<User> createUser(UserRegistrationDto dto, String email, String password) {
+    public Optional<UserResponseDto> createUser(UserRegistrationDto dto, String email, String password) {
         if (authRepository.findByEmail(email).isPresent()) {
             return Optional.empty();
         }
@@ -42,11 +43,11 @@ public class UserService {
         auth.setPassword(password);
         authRepository.save(auth);
 
-        return Optional.of(savedUser);
+        return Optional.of(UserMapper.toDto(savedUser));
     }
 
     @Transactional
-    public Optional<User> updateUser(Long id, User user) {
+    public Optional<UserResponseDto> updateUser(Long id, User user) {
         Optional<User> existingUser = userRepository.findById(id);
         Optional<Auth> existingAuth = authRepository.findById(id);
 
@@ -57,8 +58,11 @@ public class UserService {
         User userToUpdate = existingUser.get();
         userToUpdate.setFirstName(user.getFirstName());
         userToUpdate.setLastName(user.getLastName());
+        userToUpdate.setProfileImageUrl(user.getProfileImageUrl());
         userToUpdate.setDate(user.getDate());
-        return Optional.of(userRepository.save(userToUpdate));
+        
+        userRepository.save(userToUpdate);
+        return Optional.of(UserMapper.toDto(userToUpdate));
     }
 
     @Transactional

@@ -55,7 +55,30 @@ public class ItemService {
             return Optional.empty();
         }
 
-        item.setId(id);
+        Item itemOriginal = existingItem.get();
+        itemOriginal.setTitle(item.getTitle());
+        itemOriginal.setImageUrl(item.getImageUrl());
+        itemOriginal.setDescription(item.getDescription());
+        itemOriginal.setTag(item.getTag());
+        itemOriginal.setType(item.getType());
+
+        return Optional.of(itemRepository.save(itemOriginal));
+    }
+
+    @Transactional
+    public Optional<Item> updateItemRating(Long id, float newRating) {
+        Optional<Item> existingItem = itemRepository.findById(id);
+        if (!existingItem.isPresent()) {
+            return Optional.empty();
+        }
+
+        Item item = existingItem.get();
+        int totalVotes = item.getTotalRatings();
+        float currentRating = item.getAverageRating();
+        float updatedRating = ((totalVotes * currentRating) + newRating) / (totalVotes + 1);
+        item.setAverageRating(updatedRating);
+        item.addRating();
+
         return Optional.of(itemRepository.save(item));
     }
 }

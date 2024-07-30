@@ -37,6 +37,10 @@ public class Item {
     private String description;
     private String tag;
 
+    @Column(nullable = false)
+    private Integer totalRatings = 0;
+    
+    @Column(nullable = false)
     private Float averageRating = 0.0f;
 
     @Enumerated(EnumType.STRING)
@@ -45,4 +49,8 @@ public class Item {
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Rating> ratings;
+
+    public void addRating() {
+        totalRatings++;
+    }
 }

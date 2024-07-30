@@ -15,6 +15,7 @@ public class ItemResponseDto {
     private String imageUrl;
     private String description;
     private String tag;
+    private Integer totalRatings = 0;
     private Float averageRating = 0.0f;
     private ItemType type;
 }

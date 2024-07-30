@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nicoarbelaez.ratebook.user.dto.UserRegistrationDto;
 import com.nicoarbelaez.ratebook.user.dto.UserResponseDto;
-import com.nicoarbelaez.ratebook.user.dto.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +29,7 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<Iterable<UserResponseDto>> getAllUsers() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(userService.getAllUser().stream().map(UserMapper::toDto).toList());
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUser());
     }
 
     @GetMapping("/{id}")
@@ -40,25 +38,25 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        Optional<User> user = userService.getUserById(id);
-        return user.map(value -> ResponseEntity.status(HttpStatus.OK).body(UserMapper.toDto(value)))
+        Optional<UserResponseDto> user = userService.getUserById(id);
+        return user.map(value -> ResponseEntity.status(HttpStatus.OK).body(value))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRegistrationDto dto) {
-        Optional<User> createdUser = userService.createUser(dto, dto.getEmail(), dto.getPassword());
+        Optional<UserResponseDto> createdUser = userService.createUser(dto, dto.getEmail(), dto.getPassword());
 
         if (!createdUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(createdUser.get()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser.get());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        Optional<User> updatedUser = userService.updateUser(id, user);
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @RequestBody User user) {
+        Optional<UserResponseDto> updatedUser = userService.updateUser(id, user);
         return updatedUser.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
