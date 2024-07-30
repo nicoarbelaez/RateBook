@@ -1,6 +1,5 @@
 package com.nicoarbelaez.ratebook.user;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -30,8 +29,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public List<UserResponseDto> getAllUser() {
-        return userService.getAllUser().stream().map(UserMapper::toDto).toList();
+    public ResponseEntity<Iterable<UserResponseDto>> getAllUsers() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.getAllUser().stream().map(UserMapper::toDto).toList());
     }
 
     @GetMapping("/{id}")
@@ -47,14 +47,13 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRegistrationDto dto) {
-        User user = UserMapper.toEntity(dto);
-        Optional<User> createdUser = userService.createUser(user, dto.getEmail(), dto.getPassword());
+        Optional<User> createdUser = userService.createUser(dto, dto.getEmail(), dto.getPassword());
 
         if (!createdUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(createdUser.get()));
     }
 
     @PutMapping("/{id}")
@@ -64,12 +63,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        boolean isDeleted = userService.deleteUser(id);
-        if (!isDeleted) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {;
+        return userService.deleteUser(id)
+                ? ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

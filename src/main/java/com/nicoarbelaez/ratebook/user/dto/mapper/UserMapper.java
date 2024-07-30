@@ -12,8 +12,6 @@ public class UserMapper {
         user.setLastName(dto.getLastName());
         user.setDate(dto.getDate());
         user.setProfileImageUrl(dto.getProfileImageUrl());
-        user.setReviewsCount(dto.getReviewsCount());
-        user.setItemsEvaluatedCount(dto.getItemsEvaluatedCount());
         
         return user;
     }

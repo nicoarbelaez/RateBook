@@ -13,7 +13,4 @@ public class UserRegistrationDto {
     private String password;
 
     private LocalDate date;
-    
-    private int reviewsCount;
-    private int itemsEvaluatedCount;
 }
