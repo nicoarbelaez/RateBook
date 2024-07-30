@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.nicoarbelaez.ratebook.item.Item;
 import com.nicoarbelaez.ratebook.item.ItemRepository;
+import com.nicoarbelaez.ratebook.item.dto.mapper.ItemMapper;
 import com.nicoarbelaez.ratebook.rating.dto.RatingCreationDto;
 import com.nicoarbelaez.ratebook.rating.dto.RatingResponseDto;
 import com.nicoarbelaez.ratebook.rating.dto.RatingUpdateSatrtDto;
@@ -49,7 +50,8 @@ public class RatingService {
 
         Rating rating = RatingMapper.toEntity(dto, user.get(), item.get());
         ratingRepository.save(rating);
-        return Optional.of(RatingMapper.toResponseDto(rating, UserMapper.toDto(user.get())));
+        return Optional.of(
+                RatingMapper.toResponseDto(rating, UserMapper.toDto(user.get()), ItemMapper.toResponseDto(item.get())));
     }
 
     @Transactional
