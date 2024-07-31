@@ -16,15 +16,13 @@ public class ItemMapper {
     }
 
     public static ItemResponseDto toResponseDto(Item item) {
-        return new ItemResponseDto(
-            item.getId(),
-            item.getTitle(),
-            item.getImageUrl(),
-            item.getDescription(),
-            item.getTag(),
-            item.getTotalRatings(),
-            item.getAverageRating(),
-            item.getType()
-        );
+        return ItemResponseDto.builder()
+                .id(item.getId())
+                .title(item.getTitle())
+                .imageUrl(item.getImageUrl())
+                .description(item.getDescription())
+                .tag(item.getTag())
+                .type(item.getType())
+                .build();
     }
 }

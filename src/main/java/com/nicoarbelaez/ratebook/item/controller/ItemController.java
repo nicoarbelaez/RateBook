@@ -67,17 +67,6 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.OK).body(ItemMapper.toResponseDto(updatedItem.get()));
     }
 
-    @PostMapping("/{id}/{rating}")
-    public ResponseEntity<ItemResponseDto> addRating(@PathVariable Long id, @PathVariable float rating) {
-        Optional<Item> updatedItem = itemService.updateItemRating(id, rating);
-
-        if (!updatedItem.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(ItemMapper.toResponseDto(updatedItem.get()));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
         return itemService.deleteItem(id)

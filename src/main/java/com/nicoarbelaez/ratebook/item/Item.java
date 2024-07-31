@@ -3,13 +3,10 @@ package com.nicoarbelaez.ratebook.item;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
-import java.util.List;
+import lombok.Builder;
 
 import com.nicoarbelaez.ratebook.item.enums.ItemType;
-import com.nicoarbelaez.ratebook.rating.Rating;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,14 +14,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "items")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Table(name = "items")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,20 +34,7 @@ public class Item {
     private String description;
     private String tag;
 
-    @Column(nullable = false)
-    private Integer totalRatings = 0;
-    
-    @Column(nullable = false)
-    private Float averageRating = 0.0f;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ItemType type;
-
-    @OneToMany(mappedBy = "item", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Rating> ratings;
-
-    public void addRating() {
-        totalRatings++;
-    }
 }

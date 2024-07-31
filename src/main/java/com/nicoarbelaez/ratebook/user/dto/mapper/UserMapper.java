@@ -23,8 +23,6 @@ public class UserMapper {
         dto.setLastName(user.getLastName());
         dto.setDate(user.getDate());
         dto.setProfileImageUrl(user.getProfileImageUrl());
-        dto.setReviewsCount(user.getReviewsCount());
-        dto.setItemsEvaluatedCount(user.getItemsEvaluatedCount());
 
         return dto;
     }

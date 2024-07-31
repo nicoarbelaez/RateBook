@@ -1,14 +1,11 @@
-package com.nicoarbelaez.ratebook.rating;
+package com.nicoarbelaez.ratebook.review;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import java.time.LocalDateTime;
+
 
 import com.nicoarbelaez.ratebook.item.Item;
 import com.nicoarbelaez.ratebook.user.User;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,26 +13,35 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "ratings")
-public class Rating {
+@Table(name = "reviews")
+public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Float stars;
+    private String content;
+    private Integer likes;
+    private Integer dislikes;
+
+    @Builder.Default
+    private LocalDateTime created_at = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item item;
 }
