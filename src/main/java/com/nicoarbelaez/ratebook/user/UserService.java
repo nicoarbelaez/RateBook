@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.nicoarbelaez.ratebook.auth.Auth;
 import com.nicoarbelaez.ratebook.auth.AuthRepository;
-import com.nicoarbelaez.ratebook.user.dto.UserRegistrationDto;
 import com.nicoarbelaez.ratebook.user.dto.UserResponseDto;
 import com.nicoarbelaez.ratebook.user.dto.mapper.UserMapper;
 
@@ -27,23 +26,6 @@ public class UserService {
 
     public Optional<UserResponseDto> getUserById(Long id) {
         return userRepository.findById(id).map(UserMapper::toDto);
-    }
-
-    @Transactional
-    public Optional<UserResponseDto> createUser(UserRegistrationDto dto, String email, String password) {
-        if (authRepository.findByEmail(email).isPresent()) {
-            return Optional.empty();
-        }
-
-        User savedUser = userRepository.save(UserMapper.toEntity(dto));
-
-        Auth auth = new Auth();
-        auth.setUser(savedUser);
-        auth.setEmail(email);
-        auth.setPassword(password);
-        authRepository.save(auth);
-
-        return Optional.of(UserMapper.toDto(savedUser));
     }
 
     @Transactional

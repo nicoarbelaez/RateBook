@@ -3,12 +3,18 @@
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
 ## Description
 
 This service allows users to rate movies, series, and books using star ratings, reviews, and comments. It is an interactive platform where users can share their opinions and discover new recommendations based on others' ratings.
 
+## Database Diagram
+
+For a better understanding of the database structure, you can check the following diagram:
+
+[![Database Diagram](https://img.shields.io/badge/DB-Diagram-blue)](https://dbdiagram.io/d/RateBook-66a6c2088b4bb5230e921f66)
 ## Features
 
 ### Item Ratings
@@ -39,8 +45,3 @@ This service allows users to rate movies, series, and books using star ratings, 
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-## Database Diagram
-
-For a better understanding of the database structure, you can check the following diagram:
-
-[![Database Diagram](https://img.shields.io/badge/DB-Diagram-blue)](https://dbdiagram.io/d/RateBook-66a6c2088b4bb5230e921f66)

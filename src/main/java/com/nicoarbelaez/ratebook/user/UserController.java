@@ -8,13 +8,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nicoarbelaez.ratebook.user.dto.UserRegistrationDto;
 import com.nicoarbelaez.ratebook.user.dto.UserResponseDto;
 
 import lombok.RequiredArgsConstructor;
@@ -41,17 +39,6 @@ public class UserController {
         Optional<UserResponseDto> user = userService.getUserById(id);
         return user.map(value -> ResponseEntity.status(HttpStatus.OK).body(value))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-    @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRegistrationDto dto) {
-        Optional<UserResponseDto> createdUser = userService.createUser(dto, dto.getEmail(), dto.getPassword());
-
-        if (!createdUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser.get());
     }
 
     @PutMapping("/{id}")

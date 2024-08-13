@@ -36,7 +36,7 @@ public class Auth {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, orphanRemoval = true, optional = false)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     private User user;
 }
