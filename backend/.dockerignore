@@ -1,0 +1,9 @@
+# Ignorar la carpeta target, donde se almacenan los JARs compilados
+target/
+
+# Ignorar configuraciones y archivos locales
+.git
+*.md
+*.iml
+docker-compose*.yml
+.env

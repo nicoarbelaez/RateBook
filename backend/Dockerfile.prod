@@ -1,0 +1,14 @@
+# Usamos una imagen más ligera basada en distroless para ejecutar la aplicación
+FROM gcr.io/distroless/java17-debian11
+
+# Establecemos el directorio de trabajo
+WORKDIR /app
+
+# Copiamos solo el archivo JAR generado
+COPY ./target/ratebook-0.0.1-SNAPSHOT.jar /app/ratebook.jar
+
+# Exponemos el puerto 8080
+EXPOSE 8080
+
+# Ejecutamos la aplicación en modo producción
+ENTRYPOINT ["java", "-jar", "/app/ratebook.jar"]

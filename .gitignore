@@ -1,11 +1,14 @@
+### General ###
 .env
 HELP.md
+
+### Maven ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+### Spring Tool Suite (STS) ###
 .apt_generated
 .classpath
 .factorypath
@@ -26,9 +29,38 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
+.devcontariner/
+
+### Node.js ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.next/
+out/
+
+### Logs ###
+logs
+*.log
+
+### OS generated files ###
+.DS_Store
+Thumbs.db
+
+### Testing ###
+coverage/
+test-output/
+
+### Database ###
+*.db
+*.sqlite
+*.sql
+
+### Build ###
+/build
+/dist
+/.gradle

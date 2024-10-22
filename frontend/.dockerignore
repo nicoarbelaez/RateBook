@@ -1,0 +1,12 @@
+# Ignorar node_modules y archivos de salida
+node_modules
+npm-debug.log
+yarn-error.log
+.next
+out
+
+# Ignorar configuraciones y archivos locales
+.env
+.git
+*.md
+docker-compose*.yml
